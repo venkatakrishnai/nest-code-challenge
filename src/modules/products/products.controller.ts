@@ -21,18 +21,18 @@ import { isEmpty } from 'lodash';
 @Controller('products')
 export class ProductsController {
 	constructor(
-		private readonly productservice: ProductsService,
-		private readonly ruleservice: RulesService,
+		private readonly productService: ProductsService,
+		private readonly ruleService: RulesService,
 	) {}
 
 	@Get()
 	async findAll() {
-		return await this.productservice.findAll();
+		return await this.productService.findAll();
 	}
 
 	@Get(':id')
 	async findOne(@Param('id') id: number): Promise<ProductEntity> {
-		const product = await this.productservice.findOne(id);
+		const product = await this.productService.findOne(id);
 
 		if (!product) {
 			throw new NotFoundException("This product doesn't exist");
@@ -47,14 +47,14 @@ export class ProductsController {
 		@Request() req,
 	): Promise<ProductEntity> {
 		//create product
-		let item = await this.productservice.create(product);
+		let item = await this.productService.create(product);
 
 		if (!isEmpty(product.rule)) {
 			let rule: RuleDto = product.rule;
-			await this.ruleservice.create(rule, item.id);
+			await this.ruleService.createOrUpdate(rule, item.id);
 		}
 
-		return await this.productservice.findOne(item.id);
+		return await this.productService.findOne(item.id);
 	}
 
 	@Put(':id')
@@ -66,7 +66,7 @@ export class ProductsController {
 		const {
 			numberOfAffectedRows,
 			updatedProduct,
-		} = await this.productservice.update(id, product);
+		} = await this.productService.update(id, product);
 
 		if (numberOfAffectedRows === 0) {
 			throw new NotFoundException("This product doesn't exist");
@@ -74,19 +74,19 @@ export class ProductsController {
 
 		if (!isEmpty(product.rule)) {
 			let rule: RuleDto = product.rule;
-			await this.ruleservice.create(rule, updatedProduct.id);
+			await this.ruleService.createOrUpdate(rule, updatedProduct.id);
 		} else {
-			await this.ruleservice.deleteByProduct(updatedProduct.id);
+			await this.ruleService.deleteByProduct(updatedProduct.id);
 		}
 
-		return await this.productservice.findOne(updatedProduct.id);
+		return await this.productService.findOne(updatedProduct.id);
 	}
 
 	@Delete(':id')
 	async remove(@Param('id') id: number, @Request() req) {
-		await this.ruleservice.deleteByProduct(id);
+		await this.ruleService.deleteByProduct(id);
 
-		const deleted = await this.productservice.delete(id);
+		const deleted = await this.productService.delete(id);
 
 		if (deleted === 0) {
 			throw new NotFoundException("This product doesn't exist");

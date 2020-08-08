@@ -1,6 +1,5 @@
 import {
 	IsNotEmpty,
-	MinLength,
 	IsNumber,
 	IsObject,
 	IsNotEmptyObject,

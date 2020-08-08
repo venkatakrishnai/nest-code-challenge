@@ -10,7 +10,7 @@ export class RulesService {
     private readonly ruleRepository: typeof Rule,
   ) {}
 
-  async create(rule: RuleDto, productId: number): Promise<Rule> {
+  async createOrUpdate(rule: RuleDto, productId: number): Promise<Rule> {
     let whereCondition = {
       productId: productId,
     };

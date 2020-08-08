@@ -32,6 +32,10 @@ export class ProductsService {
     return await this.productRepository.destroy({ where: { id } });
   }
 
+  async getProductsByIds(ids: number[]) {
+    return await this.productRepository.findAll({ where: { id: ids } });
+  }
+
   async update(id, data) {
     const [
       numberOfAffectedRows,
