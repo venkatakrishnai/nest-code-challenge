@@ -1,11 +1,6 @@
-import {
-  Table,
-  Column,
-  Model,
-  DataType,
-  ForeignKey,
-  BelongsTo,
-} from 'sequelize-typescript';
+import { Table, Column, Model, DataType, HasOne } from 'sequelize-typescript';
+
+import { Rule } from '../rules/rule.entity';
 
 @Table
 export class Product extends Model<Product> {
@@ -20,4 +15,7 @@ export class Product extends Model<Product> {
     allowNull: false,
   })
   price: number;
+
+  @HasOne(() => Rule)
+  rule: Rule;
 }

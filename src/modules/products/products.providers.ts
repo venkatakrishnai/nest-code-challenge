@@ -1,6 +1,6 @@
 import { Product } from './product.entity';
 
-export const productsProviders = [
+export const ProductsProviders = [
 	{
 		provide: "PRODUCT_REPOSITORY",
 		useValue: Product,

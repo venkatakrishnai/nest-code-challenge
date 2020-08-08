@@ -6,6 +6,7 @@ import {
   UnprocessableEntityException,
   ValidationError,
 } from '@nestjs/common';
+import { first, has } from 'lodash';
 
 @Injectable()
 export class ValidateInputPipe extends ValidationPipe {
@@ -15,14 +16,29 @@ export class ValidateInputPipe extends ValidationPipe {
     } catch (e) {
       if (e instanceof BadRequestException) {
         throw new UnprocessableEntityException(
-          this.handleError(e.message),
+          this.handleError(e['response']['message']),
         );
       }
     }
   }
 
   private handleError(errors) {
-    return errors.map(error => error.constraints);
+    let ers: Object = {};
+    errors.map(error => {
+      var key: string = first(error.split(' '));
+      if (has(ers, key)) {
+        ers[key].push(error);
+      } else {
+        ers[key] = [error];
+      }
+    });
+    return {
+      statusCode: 422,
+      message: 'Unprocessable Entity',
+      errors: ers,
+    };
+
+    //return errors.map(error => error.constraints);
 
     // var ers = [];
     // errors.map(error => {
