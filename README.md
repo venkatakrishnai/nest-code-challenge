@@ -1,4 +1,3 @@
-  
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository for basic crud opeartion.
@@ -22,7 +21,12 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## ##API's
+
+### `api_collection.json`
+
 ## License
 
-  Nest is [MIT licensed](LICENSE).
+Nest is [MIT licensed](LICENSE).
+
 # nest-code-challenge
