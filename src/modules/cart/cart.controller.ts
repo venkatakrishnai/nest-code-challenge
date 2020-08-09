@@ -3,13 +3,9 @@ import {
 	Get,
 	Post,
 	Put,
-	Delete,
 	Param,
 	Body,
 	NotFoundException,
-	UseGuards,
-	Request,
-	ParseIntPipe,
 } from '@nestjs/common';
 
 import { CartService } from './cart.service';
@@ -38,7 +34,7 @@ export class CartController {
 	}
 
 	@Post()
-	async create(@Body() cart: CartDto, @Request() req): Promise<CartEntity> {
+	async create(@Body() cart: CartDto): Promise<CartEntity> {
 		cart.productIds = cart.productIds.map(val => +val);
 		return await this.cartService.create(cart);
 	}

@@ -8,6 +8,6 @@ async function bootstrap() {
 	app.setGlobalPrefix('api');
 	// handle all user input validation globally
 	app.useGlobalPipes(new ValidateInputPipe());
-	await app.listen(3000);
+	await app.listen(3001);
 }
 bootstrap();

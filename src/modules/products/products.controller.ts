@@ -7,8 +7,6 @@ import {
 	Param,
 	Body,
 	NotFoundException,
-	UseGuards,
-	Request,
 } from '@nestjs/common';
 
 import { ProductsService } from './products.service';
@@ -42,10 +40,7 @@ export class ProductsController {
 	}
 
 	@Post()
-	async create(
-		@Body() product: ProductDto,
-		@Request() req,
-	): Promise<ProductEntity> {
+	async create(@Body() product: ProductDto): Promise<ProductEntity> {
 		//create product
 		let item = await this.productService.create(product);
 
@@ -61,7 +56,6 @@ export class ProductsController {
 	async update(
 		@Param('id') id: number,
 		@Body() product: ProductDto,
-		@Request() req,
 	): Promise<ProductEntity> {
 		const {
 			numberOfAffectedRows,
@@ -83,7 +77,7 @@ export class ProductsController {
 	}
 
 	@Delete(':id')
-	async remove(@Param('id') id: number, @Request() req) {
+	async remove(@Param('id') id: number) {
 		await this.ruleService.deleteByProduct(id);
 
 		const deleted = await this.productService.delete(id);

@@ -3,7 +3,6 @@ import {
 	Get,
 	Param,
 	NotFoundException,
-	Request,
 	ParseIntPipe,
 } from '@nestjs/common';
 
@@ -19,10 +18,7 @@ export class CheckoutController {
 	) {}
 
 	@Get('cart/:id')
-	async checkout(
-		@Param('id') cartId: ParseIntPipe,
-		@Request() req,
-	): Promise<any> {
+	async checkout(@Param('id') cartId: ParseIntPipe): Promise<any> {
 		let cart = await this.cartService.findOne(cartId);
 		if (!cart) {
 			throw new NotFoundException("This cart doesn't exist");
